@@ -1,0 +1,85 @@
+"""
+This module provides a set of functions for basic signal processing operations, including:
+
+* **Framing:** Divides a given signal into overlapping frames.
+* **Windowing:** Applies a Hamming window function to a frame.
+* **Feature Extraction:** 
+    * Calculates the energy of a signal frame.
+    * Calculates the zero-crossing rate of a signal frame.
+    * Calculates the autocorrelation coefficients of a signal frame.
+    * Calculates the Average Magnitude Difference Function (AMDF) between two frames.
+* **Signal Modification:**
+    * Applies center clipping to a signal frame.
+
+**Functions:**
+
+* **framing(signal, frame_length, hop_length)**
+    - **Args:**
+        - `signal`: The input signal as a list of numerical values.
+        - `frame_length`: The desired length of each frame (in samples).
+        - `hop_length`: The number of samples to shift the frame window for each step.
+    - **Returns:**
+        - A list of frames, where each frame is a sublist of the input signal.
+    - **Description:**
+        - This function segments the input signal into overlapping frames. 
+        - It iterates through the signal with a step size of `hop_length`, extracting frames of length `frame_length` at each step.
+        - The resulting list contains all the extracted frames.
+
+* **windowing(frame, window_type='hamming')**
+    - **Args:**
+        - `frame`: The input signal frame as a list of numerical values.
+        - `window_type`: The type of window function to apply (currently only 'hamming' is supported).
+    - **Returns:**
+        - A list representing the windowed frame, where each sample in the frame is multiplied by the corresponding value of the Hamming window.
+    - **Description:**
+        - This function applies a Hamming window to the input frame to reduce spectral leakage. 
+        - The Hamming window is a smoothly tapered function that reduces the influence of the abrupt signal discontinuities at the beginning and end of the frame.
+
+* **signal_energy(frame)**
+    - **Args:**
+        - `frame`: The input signal frame as a list of numerical values.
+    - **Returns:**
+        - The energy of the frame, calculated as the sum of the squares of the signal values.
+    - **Description:**
+        - This function calculates the energy of the input frame, which is a measure of the signal's power.
+
+* **zero_crossing_rate(frame)**
+    - **Args:**
+        - `frame`: The input signal frame as a list of numerical values.
+    - **Returns:**
+        - The number of zero crossings in the frame, where a zero crossing occurs when the signal changes sign between two consecutive samples.
+    - **Description:**
+        - This function calculates the zero-crossing rate of the frame, which is a measure of the frequency content of the signal.
+
+* **autocorrelation(frame)**
+    - **Args:**
+        - `frame`: The input signal frame as a list of numerical values.
+    - **Returns:**
+        - A list of autocorrelation coefficients for the frame, representing the correlation of the frame with itself at different time lags.
+    - **Description:**
+        - This function calculates the autocorrelation of the frame, which can be used to analyze the periodicities within the signal.
+
+* **amdf(frame1, frame2)**
+    - **Args:**
+        - `frame1`: The first signal frame as a list of numerical values.
+        - `frame2`: The second signal frame as a list of numerical values.
+    - **Returns:**
+        - The minimum value of the Average Magnitude Difference Function (AMDF) between the two frames.
+    - **Description:**
+        - This function calculates the AMDF between two frames, which measures the similarity between the frames as a function of time lag. 
+        - The minimum AMDF value indicates the time lag where the two frames are most similar.
+
+* **center_clipping(frame, threshold)**
+    - **Args:**
+        - `frame`: The input signal frame as a list of numerical values.
+        - `threshold`: The clipping threshold value.
+    - **Returns:**
+        - A list representing the center-clipped frame, where any signal values exceeding the threshold are clipped to the threshold value.
+    - **Description:**
+        - This function applies center clipping to the frame, which can be used to reduce the influence of large amplitude values in the signal.
+
+**Note:**
+
+* This module currently supports only the Hamming window function for windowing.
+* The implementation of the `amdf` function calculates the minimum AMDF value, which can be used for tasks like pitch detection.
+* The code includes basic docstrings for each function, providing a brief description of the function's purpose and its parameters.
